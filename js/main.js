@@ -231,13 +231,6 @@
         o.y(Math.sin(ang) * d);
       }
     }, { passive: true });
-
-    if (!FROZEN) {
-      gsap.utils.toArray(".eyes .eye").forEach((eye, i) => {
-        gsap.set(eye, { transformOrigin: "50% 50%", transformBox: "fill-box" });
-        gsap.to(eye, { scaleY: 0.08, duration: 0.09, repeat: -1, yoyo: true, repeatDelay: 3.2 + i * 0.05, ease: "power1.inOut", delay: 2 + i });
-      });
-    }
   }
 
   /* ------------------------------------------------ Custom cursor */
