@@ -63,9 +63,9 @@
     tl.add(setStatus(2));
     tl.fromTo(".lp--cheese", { opacity: 0, scale: 0.35, y: -36 }, { opacity: 1, scale: 1, y: 0, duration: 0.45, ease });
     tl.add(setStatus(3));
-    tl.to(".lp--pep > *", { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)", stagger: 0.07, startAt: { scale: 0, y: -70 } });
+    tl.fromTo(".lp--pep > *", { opacity: 0, scale: 0, y: -70 }, { opacity: 1, scale: 1, y: 0, duration: 0.5, ease: "back.out(2.2)", stagger: 0.07 });
     tl.add(setStatus(4));
-    tl.to(".lp--basil > *", { opacity: 1, scale: 1, rotation: 0, duration: 0.45, ease: "back.out(1.8)", stagger: 0.1, startAt: { scale: 0, rotation: -40 } });
+    tl.fromTo(".lp--basil > *", { opacity: 0, scale: 0, rotation: -40 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.45, ease: "back.out(1.8)", stagger: 0.1 });
     tl.add(setStatus(5));
     tl.fromTo(".lp--face", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.4)" });
     tl.to(".loader__pizza", { rotation: "+=10", duration: 0.45, ease: "power1.inOut", yoyo: true, repeat: 1 }, "-=0.1");
