@@ -103,16 +103,27 @@
   }
 
   /* ------------------------------------------------ Hero intro */
+  // Pre-hide the hero pieces up-front so they never flash on screen while the
+  // loader / colour-band reveal is still playing (this was the "double load").
+  function prepHero() {
+    if (FROZEN) return;
+    gsap.set(".hero__headline .char", { yPercent: 130, opacity: 0 });
+    gsap.set(".hero__product", { scale: 0, opacity: 0 });
+    gsap.set(".hero__brand", { yPercent: 70, opacity: 0 });
+    gsap.set(".hero__copy", { y: 30, opacity: 0 });
+    gsap.set(".hero__badge", { scale: 0, opacity: 0 });
+    gsap.set(".scroll-cue", { opacity: 0, y: 10 });
+  }
+
   function heroIntro() {
-    const chars = gsap.utils.toArray(".hero__headline .char");
-    if (FROZEN) { gsap.set([".hero__product", ".hero__brand", ".hero__copy", ".hero__badge", ".scroll-cue"], { clearProps: "all" }); return; }
+    if (FROZEN) return;
     const tl = gsap.timeline({ defaults: { ease: "back.out(1.6)" } });
-    tl.from(chars, { yPercent: 130, opacity: 0, duration: 0.7, stagger: 0.035, ease: "back.out(1.7)" });
-    tl.from(".hero__product", { scale: 0, opacity: 0, duration: 0.75, ease: "back.out(1.5)" }, "-=0.32");
-    tl.from(".hero__brand", { yPercent: 70, opacity: 0, duration: 0.6 }, "-=0.45");
-    tl.from(".hero__badge", { scale: 0, opacity: 0, rotation: "-=25", duration: 0.5, stagger: 0.12 }, "-=0.4");
-    tl.from(".hero__copy", { y: 30, opacity: 0, duration: 0.55, stagger: 0.1 }, "-=0.3");
-    tl.from(".scroll-cue", { opacity: 0, y: 10, duration: 0.5 }, "-=0.2");
+    tl.to(".hero__headline .char", { yPercent: 0, opacity: 1, duration: 0.7, stagger: 0.035, ease: "back.out(1.7)" });
+    tl.to(".hero__product", { scale: 1, opacity: 1, duration: 0.75, ease: "back.out(1.5)" }, "-=0.32");
+    tl.to(".hero__brand", { yPercent: 0, opacity: 1, duration: 0.6 }, "-=0.45");
+    tl.to(".hero__badge", { scale: 1, opacity: 1, duration: 0.5, stagger: 0.12 }, "-=0.4");
+    tl.to(".hero__copy", { y: 0, opacity: 1, duration: 0.55, stagger: 0.1 }, "-=0.3");
+    tl.to(".scroll-cue", { opacity: 1, y: 0, duration: 0.5 }, "-=0.2");
   }
 
   /* ------------------------------------------------ Scroll reveals */
@@ -360,6 +371,7 @@
     initReveals();
     initParallax();
     initPlane();
+    prepHero();
     runLoader();
 
     window.addEventListener("load", () => ScrollTrigger.refresh());
