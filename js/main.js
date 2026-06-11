@@ -11,13 +11,14 @@
     return;
   }
 
-  // Motion is intentionally forced on for every visitor: the site no longer honours
-  // the OS "reduce motion" preference, so the pizza loader, scroll animations and the
-  // custom cursor look identical on every machine. The ?static / ?nomotion override
-  // (STATIC) is kept as a manual escape hatch.
+  // Motion respects the OS "reduce motion" preference: when a visitor asks for less
+  // motion, the loader, scroll animations and custom cursor all collapse to their
+  // instant/static state. The ?static / ?nomotion query override (STATIC) forces the
+  // same static experience as a manual escape hatch.
   const COARSE = window.matchMedia("(pointer: coarse)").matches;
   const STATIC = /[?&](static|nomotion)/.test(location.search);
-  const FROZEN = STATIC;
+  const REDUCED = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const FROZEN = STATIC || REDUCED;
 
   gsap.registerPlugin(ScrollTrigger);
 
@@ -433,7 +434,7 @@
 
   /* ------------------------------------------------ Boot */
   function boot() {
-    if (STATIC) document.documentElement.classList.add("is-static");
+    if (FROZEN) document.documentElement.classList.add("is-static");
     initLenis();
     initCursor();
     initEyes();

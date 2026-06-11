@@ -380,6 +380,16 @@ html:not(.js) .loader, html:not(.js) .reveal{ display:none; }
 .is-static .grain{ display:none; }
 .is-static *, .is-static *::before, .is-static *::after{ animation:none !important; }
 
+/* Honour the OS "reduce motion" preference even if JS never runs (CSS-only
+   marquee / scroll-cue loops still need stopping). JS folds the same preference
+   into FROZEN + the .is-static class for the GSAP-driven motion. */
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{
+    animation-duration:.01ms !important; animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+  }
+}
+
 /* =============================== RESPONSIVE =============================== */
 
 /* ---- Large screens (≥1500px): let the hero fill more of the space ---- */
