@@ -355,8 +355,34 @@
     }
   }
 
-  /* ------------------------------------------------ Smooth anchor links */
+  /* ------------------------------------------------ Anchor nav: colour-sweep transition */
   function initAnchors() {
+    const bands = gsap.utils.toArray(".page-sweep__band");
+    // the CSS fallback transform parses into a fixed px offset — zero it so yPercent is the only driver
+    if (bands.length) gsap.set(bands, { y: 0, yPercent: 118 });
+    let navigating = false;
+
+    const jumpTo = (target) => {
+      if (lenis) lenis.scrollTo(target, { offset: -16, immediate: true, force: true });
+      else window.scrollTo(0, target.getBoundingClientRect().top + scrollY - 16);
+      ScrollTrigger.update();
+      target.tabIndex = -1;
+      target.focus({ preventScroll: true });
+    };
+
+    const navigateTo = (target) => {
+      closeMenu();
+      // reduced motion / no overlay: skip the show, just go
+      if (FROZEN || !bands.length) { jumpTo(target); return; }
+      if (navigating) return;
+      navigating = true;
+      const tl = gsap.timeline({ onComplete: () => { navigating = false; } });
+      tl.fromTo(bands, { yPercent: 118 }, { yPercent: 0, duration: 0.5, ease: "power3.in", stagger: 0.07 });
+      tl.add(() => jumpTo(target), "+=0.02");
+      tl.to(bands, { yPercent: -118, duration: 0.65, ease: "power3.out", stagger: 0.07 }, "+=0.1");
+      tl.set(bands, { yPercent: 118 }); // park below for the next run
+    };
+
     document.querySelectorAll('a[href^="#"]').forEach((a) => {
       a.addEventListener("click", (e) => {
         const id = a.getAttribute("href");
@@ -364,11 +390,7 @@
         const target = document.querySelector(id);
         if (!target) return;
         e.preventDefault();
-        closeMenu();
-        if (lenis) lenis.scrollTo(target, { offset: -20, duration: 1.2 });
-        else target.scrollIntoView({ behavior: FROZEN ? "auto" : "smooth" });
-        target.tabIndex = -1;
-        target.focus({ preventScroll: true });
+        navigateTo(target);
       });
     });
   }
