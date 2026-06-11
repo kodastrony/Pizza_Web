@@ -10,9 +10,38 @@
 <meta property="og:title" content="SLICE – Pizza z pieca opalanego drewnem" />
 <meta property="og:description" content="Ręcznie wyrabiana, dojrzewa 48h, wypiekana w 450°. Każdy kawałek pełen wyjątkowego smaku." />
 <meta property="og:type" content="website" />
+<meta property="og:url" content="https://kodastrony.github.io/pizza/" />
+<meta property="og:image" content="https://kodastrony.github.io/pizza/screenshots/2-hero.png" />
+<meta property="og:locale" content="pl_PL" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kodastrony.github.io/pizza/" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  "name": "SLICE",
+  "description": "Ręcznie wyrabiana pizza neapolitańska z pieca opalanego drewnem. Od 1997.",
+  "servesCuisine": "Pizza neapolitańska",
+  "telephone": "+48 512 345 678",
+  "image": "https://kodastrony.github.io/pizza/screenshots/2-hero.png",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ul. Piecowa 7",
+    "addressLocality": "Warszawa",
+    "postalCode": "00-132",
+    "addressCountry": "PL"
+  },
+  "foundingDate": "1997",
+  "url": "https://kodastrony.github.io/pizza/",
+  "priceRange": "$$"
+}
+</script>
+<link rel="preload" href="assets/img/fullbleed.webp" as="image" type="image/webp" fetchpriority="high" />
 <script>document.documentElement.classList.add('js');</script>
 <link rel="preload" href="assets/fonts/PaytoneOne-400-17.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/PaytoneOne-400-16.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="preload" href="assets/fonts/LuckiestGuy-400-14.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="assets/fonts/LuckiestGuy-400-13.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="css/fonts.css" />
 <link rel="stylesheet" href="css/styles.css" />
 </head>
@@ -99,7 +128,7 @@
 <div class="cursor" aria-hidden="true"><span class="cursor__label"></span></div>
 
 <!-- ===================== INTRO LOADER ===================== -->
-<div class="loader" id="loader" aria-label="Ładowanie">
+<div class="loader" id="loader">
   <div class="loader__inner">
     <svg class="loader__pizza" viewBox="0 0 220 220" aria-hidden="true">
       <g class="lp lp--base">
@@ -136,7 +165,7 @@
         </g>
       </g>
     </svg>
-    <p class="loader__status" id="loaderStatus">Kneading the dough…</p>
+    <p class="loader__status" id="loaderStatus" role="status">Wyrabiamy ciasto…</p>
     <div class="loader__bar"><span class="loader__fill" id="loaderFill"></span></div>
     <p class="loader__count"><span id="loaderPct">0</span>%</p>
   </div>
@@ -168,10 +197,10 @@
     <li><a href="#top">Start</a></li>
     <li><a href="#menu">Pizze</a></li>
     <li><a href="#layers">Składniki</a></li>
-    <li><a href="#takeaway">Lokale</a></li>
+    <li><a href="#takeaway">Na wynos</a></li>
     <li><a href="#change">Kontakt</a></li>
   </ul>
-  <p class="menu-overlay__meta">Spód z pieca · Sos San Marzano · Od 1997</p>
+  <p class="menu-overlay__meta">Zamówienia: <a class="menu-overlay__phone" href="tel:+48512345678">+48 512 345 678</a> · Od 1997</p>
 </div>
 
 <main id="top">
@@ -185,9 +214,9 @@
       <span class="line"><span class="char">P</span><span class="char">I</span><span class="char">Z</span><span class="char">Z</span><span class="char">A</span></span>
     </h1>
 
-    <figure class="hero__product" data-tilt>
+    <figure class="hero__product">
       <div class="hero__disc">
-        <img src="assets/img/fullbleed.jpg" alt="Pizza margherita z pieca opalanego drewnem" loading="eager" />
+        <img src="assets/img/fullbleed.webp" alt="Pizza z rukolą i burratą prosto z pieca opalanego drewnem" loading="eager" fetchpriority="high" />
       </div>
       <svg class="eyes" viewBox="0 0 200 90" aria-hidden="true">
         <g class="eye"><circle cx="60" cy="45" r="34" fill="#fff" stroke="#23150f" stroke-width="5"/><circle class="pupil" cx="60" cy="50" r="14" fill="#23150f"/></g>
@@ -201,7 +230,7 @@
       <p>Ręcznie rozciągana i wypiekana w piecu opalanym drewnem w 450°. Każdy spód pęcznieje w dymny, cętkowany od żaru rant.</p>
     </div>
     <div class="hero__copy hero__copy--right">
-      <p>Zwieńczona mozzarellą fior di latte i autorskim sosem z pomidorów San Marzano. Wypiekana powoli, by sycić apetyt od 1997 roku.</p>
+      <p>Zwieńczona mozzarellą fior di latte i autorskim sosem z pomidorów San Marzano. Ciasto dojrzewa 48 godzin, by zaspokajać apetyt od 1997 roku.</p>
     </div>
 
     <div class="scroll-cue" aria-hidden="true"><span>Przewiń</span><i></i></div>
@@ -210,8 +239,8 @@
   <!-- marquee strip -->
   <div class="marquee" aria-hidden="true">
     <div class="marquee__track">
-      <span>Świeże ciasto ★ Z pieca ★ San Marzano ★ Dojrzewa 48h ★ Fior Di Latte ★ Mąka Tipo 00 ★ Cętkowany rant ★&nbsp;</span>
-      <span>Świeże ciasto ★ Z pieca ★ San Marzano ★ Dojrzewa 48h ★ Fior Di Latte ★ Mąka Tipo 00 ★ Cętkowany rant ★&nbsp;</span>
+      <span>Świeże ciasto ★ Z pieca ★ San Marzano ★ Dojrzewa 48h ★ Fior di latte ★ Mąka Tipo 00 ★ Cętkowany rant ★&nbsp;</span>
+      <span>Świeże ciasto ★ Z pieca ★ San Marzano ★ Dojrzewa 48h ★ Fior di latte ★ Mąka Tipo 00 ★ Cętkowany rant ★&nbsp;</span>
     </div>
   </div>
 
@@ -228,7 +257,7 @@
     </div>
 
     <!-- pizza-slice selfie mascot -->
-    <div class="mascot mascot--selfie" data-float aria-hidden="true">
+    <div class="mascot mascot--selfie" aria-hidden="true">
       <svg viewBox="0 0 200 220">
         <g class="sticker-art">
           <path d="M70 70 130 24 188 150q-58 30-116 0z" fill="url(#gCheese)" stroke="#b9842f" stroke-width="5" stroke-linejoin="round"/>
@@ -251,9 +280,9 @@
 
     <!-- tilted photo cards -->
     <div class="cards">
-      <figure class="card" style="--rot:-7deg" data-card><img src="assets/img/scene1.jpg" alt="Pizza z pepperoni i rukolą" loading="lazy"></figure>
-      <figure class="card" style="--rot:4deg" data-card><img src="assets/img/scene3.jpg" alt="Margherita neapolitańska z bazylią" loading="lazy"></figure>
-      <figure class="card" style="--rot:-3deg" data-card><img src="assets/img/city5.jpg" alt="Pizza świeżo pokrojona na kawałki" loading="lazy"></figure>
+      <figure class="card" style="--rot:-7deg" data-card><img src="assets/img/scene1.webp" alt="Pizza z pepperoni i rukolą" loading="lazy" decoding="async"></figure>
+      <figure class="card" style="--rot:4deg" data-card><img src="assets/img/scene3.webp" alt="Margherita neapolitańska z bazylią" loading="lazy" decoding="async"></figure>
+      <figure class="card" style="--rot:-3deg" data-card><img src="assets/img/city5.webp" alt="Pizza świeżo pokrojona na kawałki" loading="lazy" decoding="async"></figure>
     </div>
 
     <div class="wave wave--red" aria-hidden="true">
@@ -265,19 +294,19 @@
   <section class="feelgood">
     <span class="eyebrow eyebrow--ghost" data-reveal>Prawdziwa uczta</span>
     <h2 class="display display--cream feelgood__head" data-reveal-head>
-      <span class="dline">Jedzenie</span>
+      <span class="dline">Jedzenie,</span>
       <span class="dline">które cieszy</span>
     </h2>
 
     <!-- floating mascots -->
-    <div class="mascot mascot--corner mascot--tl" data-float aria-hidden="true">
+    <div class="mascot mascot--corner mascot--tl" aria-hidden="true">
       <svg viewBox="0 0 120 130"><use href="#i-chilli" x="14" y="6" width="80" height="80"/>
         <circle cx="44" cy="44" r="7" fill="#fff" stroke="#23150f" stroke-width="3"/><circle cx="45" cy="46" r="3" fill="#23150f"/>
         <circle cx="64" cy="40" r="7" fill="#fff" stroke="#23150f" stroke-width="3"/><circle cx="65" cy="42" r="3" fill="#23150f"/>
         <path d="M46 58q10 8 20 0" fill="none" stroke="#23150f" stroke-width="3" stroke-linecap="round"/>
       </svg>
     </div>
-    <div class="mascot mascot--corner mascot--tr" data-float aria-hidden="true">
+    <div class="mascot mascot--corner mascot--tr" aria-hidden="true">
       <svg viewBox="0 0 130 130"><use href="#i-slice" x="20" y="10" width="92" height="92"/>
         <path d="M40 116v10M86 116v10" stroke="#23150f" stroke-width="7" stroke-linecap="round"/>
         <ellipse cx="36" cy="128" rx="12" ry="6" fill="#fff" stroke="#23150f" stroke-width="3"/>
@@ -292,7 +321,7 @@
         <path d="M40 52c8-2 16-2 24 2M38 70c10 0 20 2 28 8" fill="none" stroke="#c81a13" stroke-width="3.5" stroke-linecap="round" opacity=".7"/>
       </svg>
       <div class="feelgood__disc">
-        <img src="assets/img/feelsgood.jpg" alt="Pizza BBQ z pieca opalanego drewnem" loading="lazy" />
+        <img src="assets/img/feelsgood.webp" srcset="assets/img/feelsgood-640.webp 640w, assets/img/feelsgood.webp 1100w" sizes="(max-width: 700px) 90vw, 40vw" alt="Pizza BBQ z pieca opalanego drewnem" loading="lazy" decoding="async" />
       </div>
       <svg class="eyes eyes--big" viewBox="0 0 200 90" aria-hidden="true">
         <g class="eye"><circle cx="60" cy="45" r="36" fill="#fff" stroke="#23150f" stroke-width="5"/><circle class="pupil" cx="60" cy="50" r="15" fill="#23150f"/></g>
@@ -321,8 +350,8 @@
 
   <!-- ============ FULL-BLEED PARALLAX ============ -->
   <section class="fullbleed" aria-label="Pizza z pieca opalanego drewnem">
-    <div class="fullbleed__img" data-parallax-bg>
-      <img src="assets/img/hero.jpg" alt="Pizza serowa prosto z pieca" loading="lazy" />
+    <div class="fullbleed__img">
+      <img src="assets/img/hero.webp" srcset="assets/img/hero-768.webp 768w, assets/img/hero.webp 1300w" sizes="100vw" alt="Pizza serowa prosto z pieca" loading="lazy" decoding="async" />
     </div>
     <div class="wave wave--cream wave--top" aria-hidden="true">
       <svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0,66 C240,118 520,18 760,58 C1000,96 1220,30 1440,72 L1440,0 L0,0 Z" fill="#f1e5cf"/></svg>
@@ -342,12 +371,12 @@
     </h2>
 
     <div class="floaters" aria-hidden="true">
-      <svg class="floater" data-parallax="-60" style="--x:6%;--y:18%"><use href="#i-basil" width="120" height="120"/></svg>
-      <svg class="floater" data-parallax="90"  style="--x:80%;--y:10%"><use href="#i-tomato" width="120" height="120"/></svg>
-      <svg class="floater" data-parallax="-110" style="--x:14%;--y:62%"><use href="#i-mozz" width="130" height="130"/></svg>
-      <svg class="floater" data-parallax="70"  style="--x:74%;--y:60%"><use href="#i-pep" width="118" height="118"/></svg>
-      <svg class="floater" data-parallax="-50" style="--x:46%;--y:78%"><use href="#i-mush" width="110" height="110"/></svg>
-      <svg class="floater" data-parallax="120" style="--x:52%;--y:6%"><use href="#i-chilli" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="-60" viewBox="0 0 100 100" style="--x:6%;--y:18%"><use href="#i-basil" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="90"  viewBox="0 0 100 100" style="--x:80%;--y:10%"><use href="#i-tomato" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="-110" viewBox="0 0 100 100" style="--x:14%;--y:62%"><use href="#i-mozz" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="70"  viewBox="0 0 100 100" style="--x:74%;--y:60%"><use href="#i-pep" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="-50" viewBox="0 0 100 100" style="--x:46%;--y:78%"><use href="#i-mush" width="100" height="100"/></svg>
+      <svg class="floater" data-parallax="120" viewBox="0 0 100 100" style="--x:52%;--y:6%"><use href="#i-chilli" width="100" height="100"/></svg>
     </div>
 
     <div class="wave wave--yellow" aria-hidden="true">
@@ -382,23 +411,23 @@
 
       <article class="city" data-city style="--cx:52%;--cy:2%;--rot:5deg">
         <span class="sticker sticker--red city__tag">Neapol</span>
-        <div class="city__photo"><img src="assets/img/city4.jpg" alt="Margherita w Neapolu" loading="lazy"></div>
+        <div class="city__photo"><img src="assets/img/city4.webp" alt="Margherita w Neapolu" loading="lazy" decoding="async"></div>
       </article>
       <article class="city" data-city style="--cx:8%;--cy:24%;--rot:-6deg">
         <span class="sticker sticker--red city__tag">Londyn</span>
-        <div class="city__photo"><img src="assets/img/human1.jpg" alt="Pizza w Londynie" loading="lazy"></div>
+        <div class="city__photo"><img src="assets/img/human1.webp" alt="Pizza w Londynie" loading="lazy" decoding="async"></div>
       </article>
       <article class="city" data-city style="--cx:66%;--cy:40%;--rot:7deg">
         <span class="sticker sticker--red city__tag">Nowy Jork</span>
-        <div class="city__photo"><img src="assets/img/city3.jpg" alt="Pizza pepperoni w Nowym Jorku" loading="lazy"></div>
+        <div class="city__photo"><img src="assets/img/city3.webp" alt="Pizza pepperoni w Nowym Jorku" loading="lazy" decoding="async"></div>
       </article>
       <article class="city" data-city style="--cx:6%;--cy:62%;--rot:-4deg">
         <span class="sticker sticker--red city__tag">Mediolan</span>
-        <div class="city__photo"><img src="assets/img/city1.jpg" alt="Pizza w Mediolanie" loading="lazy"></div>
+        <div class="city__photo"><img src="assets/img/city1.webp" alt="Pizza w Mediolanie" loading="lazy" decoding="async"></div>
       </article>
       <article class="city" data-city style="--cx:54%;--cy:80%;--rot:4deg">
         <span class="sticker sticker--red city__tag">Tokio</span>
-        <div class="city__photo"><img src="assets/img/tokyo.jpg" alt="Pizza z pieca w Tokio" loading="lazy"></div>
+        <div class="city__photo"><img src="assets/img/tokyo.webp" alt="Pizza z pieca w Tokio" loading="lazy" decoding="async"></div>
       </article>
     </div>
 
@@ -416,10 +445,11 @@
         <span class="dline">różnicę</span>
       </h2>
       <p class="lede" data-reveal>Wypiekana dla odważnych, stworzona dla głodnych. Wskocz w legendarne rzemiosło, gdzie rządzi każdy przypieczony rant i ciągnący się ser.</p>
-      <a class="btn btn--oval" href="#top" data-reveal data-cursor="zamów">Zamów teraz</a>
+      <a class="btn btn--oval" href="tel:+48512345678" data-reveal data-cursor="zadzwoń">Zadzwoń i zamów</a>
+      <p class="change__phone" data-reveal>Zamówienia: <a class="phone-link" href="tel:+48512345678">+48 512 345 678</a></p>
 
       <!-- pizzaiolo line-art mascot -->
-      <div class="mascot mascot--chef" data-float aria-hidden="true">
+      <div class="mascot mascot--chef" aria-hidden="true">
         <svg viewBox="0 0 220 240">
           <g fill="none" stroke="#c81a13" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
             <path d="M70 58c0-26 22-42 48-42s48 16 48 42c0 8-4 14-10 18 6 4 10 10 10 18 0 16-20 26-48 26s-48-10-48-26c0-8 4-14 10-18-6-4-10-10-10-18z" fill="#fff"/>
@@ -440,8 +470,8 @@
         </svg>
       </div>
     </div>
-    <figure class="change__photo" data-tilt>
-      <img src="assets/img/cta.jpg" alt="Pizza prosto z pieca opalanego drewnem" loading="lazy" />
+    <figure class="change__photo">
+      <img src="assets/img/cta.webp" srcset="assets/img/cta-640.webp 640w, assets/img/cta.webp 1100w" sizes="(max-width: 1023px) 92vw, 45vw" alt="Pizza prosto z pieca opalanego drewnem" loading="lazy" decoding="async" />
     </figure>
   </section>
 
@@ -455,7 +485,7 @@
     </nav>
     <p class="footer__rights">© 2026 SLICE – Wszelkie prawa zastrzeżone</p>
   </div>
-  <p class="footer__tag">Spód z pieca · Sos San Marzano · Od 1997</p>
+  <p class="footer__tag">Spód z pieca · Sos San Marzano · Od 1997 · Zamówienia: <a class="phone-link" href="tel:+48512345678">+48 512 345 678</a></p>
 
   <div class="footer__brand" aria-label="SLICE">
     <span class="fb-letter">S<svg class="fb-ing" viewBox="0 0 100 100"><use href="#i-basil" width="100" height="100"/></svg></span>
@@ -467,9 +497,9 @@
 </footer>
 
 <!-- ===================== COOKIE BANNER ===================== -->
-<div class="cookie" id="cookie">
+<div class="cookie" id="cookie" inert>
   <span class="cookie__dot"></span>
-  <p class="cookie__txt"><strong>Używamy ciasteczek</strong><br>Ciasteczka sprawiają, że każdy kawałek jest lepszy.</p>
+  <p class="cookie__txt" role="status"><strong>Używamy ciasteczek</strong><br>Ciasteczka sprawiają, że każdy kawałek jest lepszy.</p>
   <div class="cookie__btns">
     <button class="cookie__btn cookie__btn--ghost" data-cookie>Później</button>
     <button class="cookie__btn cookie__btn--solid" data-cookie>OK!</button>
@@ -479,7 +509,6 @@
 <!-- ===================== SCRIPTS ===================== -->
 <script src="js/lib/gsap.min.js"></script>
 <script src="js/lib/ScrollTrigger.min.js"></script>
-<script src="js/lib/MotionPathPlugin.min.js"></script>
 <script src="js/lib/lenis.min.js"></script>
 <script src="js/main.js"></script>
 </body>

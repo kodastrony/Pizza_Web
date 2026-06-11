@@ -25,7 +25,7 @@ napędzane scrollem oraz papierowy samolocik lecący po trasie między kartami m
 ## 🧱 Technologia
 
 - Czysty **HTML / CSS / JavaScript** — bez kroku budowania.
-- **GSAP 3** + ScrollTrigger + MotionPathPlugin, **Lenis** (hostowane lokalnie w `js/lib/`).
+- **GSAP 3** + ScrollTrigger, **Lenis** (hostowane lokalnie w `js/lib/`).
 - **Fonty hostowane lokalnie** (Luckiest Guy, Paytone One, Fredoka) z podzbiorem
   **latin‑ext** (polskie znaki) w `assets/fonts/` — działa w pełni offline.
 
@@ -50,7 +50,7 @@ css/
   styles.css        design system + wszystkie sekcje
 js/
   main.js           loader, reveal, animacje scrolla, interakcje
-  lib/              gsap, ScrollTrigger, MotionPathPlugin, lenis
+  lib/              gsap, ScrollTrigger, lenis
 assets/
   fonts/            fonty .woff2
   img/              zdjęcia

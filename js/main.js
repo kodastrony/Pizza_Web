@@ -4,6 +4,13 @@
 (function () {
   "use strict";
 
+  // If any animation lib failed to load, fall back to the static no-JS experience
+  if (typeof gsap === "undefined" || typeof ScrollTrigger === "undefined" || typeof Lenis === "undefined") {
+    document.documentElement.classList.remove("js");
+    document.body.classList.remove("is-loading");
+    return;
+  }
+
   const RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   const COARSE = window.matchMedia("(pointer: coarse)").matches;
   const STATIC = /[?&](static|nomotion)/.test(location.search);
@@ -13,6 +20,7 @@
 
   /* ------------------------------------------------ Lenis smooth scroll */
   let lenis = null;
+  let closeMenu = () => {};
   function initLenis() {
     if (FROZEN) return;
     lenis = new Lenis({ lerp: 0.1, wheelMultiplier: 1, smoothWheel: true, smoothTouch: false });
@@ -202,14 +210,30 @@
     const plane = document.querySelector(".plane");
     if (!route || !plane) return;
 
+    const flight = document.querySelector(".flight");
     const L = route.getTotalLength();
-    const place = (p) => {
-      p = gsap.utils.clamp(0, 1, p);
-      const a = route.getPointAtLength(p * L);
-      const b = route.getPointAtLength(Math.min(L, p * L + 0.6));
-      const ang = Math.atan2(b.y - a.y, b.x - a.x) * 180 / Math.PI;
-      gsap.set(plane, { left: a.x + "%", top: a.y + "%", xPercent: -50, yPercent: -50, rotation: ang + 90 });
+
+    // cache the rendered box; the 100x100 viewBox is stretched non-uniformly into it
+    let fw = 1, fh = 1, lastP = 0;
+    const measure = () => {
+      const r = flight.getBoundingClientRect();
+      if (r.width && r.height) { fw = r.width; fh = r.height; }
     };
+    measure();
+
+    const place = (p) => {
+      lastP = p = gsap.utils.clamp(0, 1, p);
+      const la = p * L;
+      const l1 = Math.min(la, L - 0.6);          // back off so the tangent stays defined at p=1
+      const a = route.getPointAtLength(la);
+      const t0 = route.getPointAtLength(l1);
+      const t1 = route.getPointAtLength(l1 + 0.6);
+      const ang = Math.atan2((t1.y - t0.y) * fh, (t1.x - t0.x) * fw) * 180 / Math.PI;
+      // compositor-only transforms: no layout work while scrubbing
+      gsap.set(plane, { x: (a.x / 100) * fw, y: (a.y / 100) * fh, xPercent: -50, yPercent: -50, rotation: ang + 90 });
+    };
+    window.addEventListener("resize", () => { measure(); place(lastP); }, { passive: true });
+    ScrollTrigger.addEventListener("refresh", () => { measure(); place(lastP); });
     place(0);
     if (FROZEN) { place(0.5); return; }
 
@@ -219,35 +243,45 @@
     });
   }
 
-  /* ------------------------------------------------ Googly eyes + blink */
+  /* ------------------------------------------------ Googly eyes */
   function initEyes() {
-    const pupils = [];
+    if (FROZEN) return;
+    const groups = [];
     gsap.utils.toArray(".eyes").forEach((svg) => {
+      const g = { svg, visible: false, pupils: [] };
       svg.querySelectorAll(".pupil").forEach((p) => {
-        pupils.push({
-          svg,
+        g.pupils.push({
           x: gsap.quickTo(p, "x", { duration: 0.35, ease: "power2" }),
           y: gsap.quickTo(p, "y", { duration: 0.35, ease: "power2" })
         });
       });
+      groups.push(g);
     });
-    if (!pupils.length) return;
+    if (!groups.length) return;
+
+    // only track the eyes that are actually on screen
+    const io = new IntersectionObserver((entries) => {
+      for (const en of entries) {
+        const g = groups.find((x) => x.svg === en.target);
+        if (g) g.visible = en.isIntersecting;
+      }
+    });
+    groups.forEach((g) => io.observe(g.svg));
 
     window.addEventListener("mousemove", (e) => {
-      for (const o of pupils) {
-        const r = o.svg.getBoundingClientRect();
+      for (const g of groups) {
+        if (!g.visible) continue;
+        const r = g.svg.getBoundingClientRect();
         const ang = Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2));
-        const d = 9;
-        o.x(Math.cos(ang) * d);
-        o.y(Math.sin(ang) * d);
+        for (const p of g.pupils) { p.x(Math.cos(ang) * 9); p.y(Math.sin(ang) * 9); }
       }
     }, { passive: true });
   }
 
   /* ------------------------------------------------ Custom cursor */
   function initCursor() {
-    if (COARSE) return;
     const cur = document.querySelector(".cursor");
+    if (COARSE || FROZEN) { if (cur) cur.style.display = "none"; return; }
     const label = cur.querySelector(".cursor__label");
     const xTo = gsap.quickTo(cur, "x", { duration: 0.22, ease: "power3" });
     const yTo = gsap.quickTo(cur, "y", { duration: 0.22, ease: "power3" });
@@ -291,10 +325,12 @@
       overlay.inert = !open;                       // closed menu: not focusable, out of a11y tree
       overlay.setAttribute("aria-hidden", String(!open));
       btn.setAttribute("aria-expanded", String(open));
+      document.body.classList.toggle("menu-open", open);  // CSS scroll lock (covers the no-Lenis path too)
       if (lenis) open ? lenis.stop() : lenis.start();
       if (open) { (overlay.querySelector("a") || overlay).focus(); }
       else if (overlay.contains(document.activeElement)) { btn.focus(); }
     };
+    closeMenu = () => { if (overlay.classList.contains("is-open")) toggle(false); };
     overlay.inert = true;
     btn.addEventListener("click", () => toggle(!overlay.classList.contains("is-open")));
     links.forEach((a) => a.addEventListener("click", () => toggle(false)));
@@ -328,22 +364,34 @@
         const target = document.querySelector(id);
         if (!target) return;
         e.preventDefault();
+        closeMenu();
         if (lenis) lenis.scrollTo(target, { offset: -20, duration: 1.2 });
-        else target.scrollIntoView({ behavior: "smooth" });
+        else target.scrollIntoView({ behavior: FROZEN ? "auto" : "smooth" });
+        target.tabIndex = -1;
+        target.focus({ preventScroll: true });
       });
     });
   }
 
   /* ------------------------------------------------ Cookie banner */
+  // sessionStorage can throw with blocked cookies / private mode
+  const cookieStore = {
+    get() { try { return sessionStorage.getItem("slice-cookie"); } catch (err) { return null; } },
+    set() { try { sessionStorage.setItem("slice-cookie", "1"); } catch (err) { /* no-op */ } }
+  };
   function showCookie() {
-    if (sessionStorage.getItem("slice-cookie") === "1") return;
-    document.getElementById("cookie").classList.add("is-shown");
+    if (cookieStore.get() === "1") return;
+    const c = document.getElementById("cookie");
+    c.inert = false;
+    c.classList.add("is-shown");
   }
   function initCookie() {
     document.querySelectorAll("[data-cookie]").forEach((b) =>
       b.addEventListener("click", () => {
-        document.getElementById("cookie").classList.remove("is-shown");
-        sessionStorage.setItem("slice-cookie", "1");
+        const c = document.getElementById("cookie");
+        c.classList.remove("is-shown");
+        c.inert = true;
+        cookieStore.set();
       })
     );
   }
