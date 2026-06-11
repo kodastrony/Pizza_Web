@@ -11,10 +11,13 @@
     return;
   }
 
-  const RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // Motion is intentionally forced on for every visitor: the site no longer honours
+  // the OS "reduce motion" preference, so the pizza loader, scroll animations and the
+  // custom cursor look identical on every machine. The ?static / ?nomotion override
+  // (STATIC) is kept as a manual escape hatch.
   const COARSE = window.matchMedia("(pointer: coarse)").matches;
   const STATIC = /[?&](static|nomotion)/.test(location.search);
-  const FROZEN = RM || STATIC;
+  const FROZEN = STATIC;
 
   gsap.registerPlugin(ScrollTrigger);
 

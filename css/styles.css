@@ -367,10 +367,10 @@ html:not(.js) .loader, html:not(.js) .reveal{ display:none; }
 .js [data-reveal-head] .dline{ opacity:0; transform:translateY(60px) rotate(-3deg); display:block; }
 .js [data-card]{ opacity:0; }
 .js [data-city]{ opacity:0; }
-@media (prefers-reduced-motion:reduce){
-  .js [data-reveal],.js [data-reveal-head] .dline,.js [data-card],.js [data-city]{ opacity:1; transform:none; }
-  .marquee__track,.scroll-cue i{ animation:none; }
-}
+/* Motion is intentionally forced on for every visitor (see js/main.js): the OS
+   "reduce motion" preference no longer disables the marquee, scroll-cue or reveal
+   animations, so the site looks identical on every machine. Use ?static for a
+   motion-free capture instead. */
 /* debug/static capture mode (?static) — show everything, no motion */
 .is-static [data-reveal],
 .is-static [data-reveal-head] .dline,
